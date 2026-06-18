@@ -495,13 +495,15 @@ async function loadMealPlan(memberId) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ memberId }),
     });
-    const { plan } = await res.json();
-    currentMealPlan = plan;
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+    currentMealPlan = data.plan;
     btn.textContent = '✓ Meal Plan Generated';
-    renderMealPlan(plan);
+    renderMealPlan(data.plan);
   } catch (err) {
     btn.disabled = false;
     btn.textContent = 'Generate Meal Plan';
+    console.error('Meal plan error:', err.message);
     alert(`Failed to generate meal plan: ${err.message}`);
   }
 }
@@ -519,10 +521,11 @@ async function loadMoodPlan(memberId) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ memberId }),
     });
-    const { plan } = await res.json();
-    currentMoodPlan = plan;
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+    currentMoodPlan = data.plan;
     btn.textContent = '✓ Mood Plan Generated';
-    renderMoodPlan(plan);
+    renderMoodPlan(data.plan);
   } catch (err) {
     btn.disabled = false;
     btn.textContent = 'Generate Mood Plan';

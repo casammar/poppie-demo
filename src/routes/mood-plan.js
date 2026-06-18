@@ -41,11 +41,16 @@ Last 14 days of mood check-ins:
 ${JSON.stringify(moodCheckins, null, 2)}
 `.trim();
 
-  const { text, provider } = await chat({
-    system: MOOD_PLAN_SYSTEM_PROMPT,
-    messages: [{ role: 'user', content: contextText }],
-    useCache: true,
-  });
+  let text, provider;
+  try {
+    ({ text, provider } = await chat({
+      system: MOOD_PLAN_SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: contextText }],
+      useCache: true,
+    }));
+  } catch (err) {
+    return res.status(500).json({ error: `LLM error: ${err.message}` });
+  }
 
   const stripped = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/i, '');
   const jsonMatch = stripped.match(/\{[\s\S]*\}/);
