@@ -154,5 +154,11 @@
     "message": "Skipped breakfast again",
     "date": "2026-06-18",
     "timestamp": "2026-06-18T00:52:33.366Z"
+  },
+  {
+    "memberId": "member-001",
+    "message": "I'm feeling a 8 out of 10 today.",
+    "date": "2026-06-18",
+    "timestamp": "2026-06-18T12:06:13.130Z"
   }
 ]
