@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Poppie Works — Member Check-In Flow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber:      #F0AF42;
+      --teal:       #66C4C4;
+      --blue:       #3BA9D2;
+      --slate:      #5A6B80;
+      --charcoal:   #3E4349;
+      --gray:       #6D7680;
+      --body:       #54595F;
+      --border:     #DEDEE5;
+      --off-white:  #F5F5F7;
+      --section:    #F8F8F8;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--off-white);
+      color: var(--body);
+      padding: 48px 32px 64px;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .header h1 span { color: var(--teal); }
+    .header p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Flow container ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    /* ── Step card ── */
+    .step {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 24px;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      position: relative;
+      transition: box-shadow .2s;
+    }
+
+    .step-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .step-icon.member   { background: #EBF8F8; }
+    .step-icon.ai       { background: #FFF4DE; }
+    .step-icon.log      { background: #EDF6FB; }
+    .step-icon.brief    { background: #F0F2F5; }
+
+    .step-body { flex: 1; }
+    .step-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .label-member { color: var(--teal); }
+    .label-ai     { color: var(--amber); }
+    .label-log    { color: var(--blue); }
+    .label-brief  { color: var(--slate); }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+    .step-desc {
+      font-size: 13.5px;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    /* ── Arrow connector ── */
+    .arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      height: 36px;
+      color: var(--border);
+    }
+    .arrow svg { display: block; }
+
+    /* ── Branch section ── */
+    .branch-wrapper {
+      width: 100%;
+      position: relative;
+    }
+    .branch-label {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .branch-row {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+    }
+    .branch-row .step {
+      flex: 1;
+    }
+
+    /* ── Background step (dashed) ── */
+    .step.background {
+      border-style: dashed;
+      border-color: var(--blue);
+      background: #F5FBFE;
+    }
+
+    /* ── Final outcome ── */
+    .outcome {
+      background: var(--teal);
+      color: #fff;
+      border: none;
+    }
+    .outcome .step-title { color: #fff; }
+    .outcome .step-desc  { color: rgba(255,255,255,.85); }
+    .outcome .step-label { color: rgba(255,255,255,.7); }
+    .outcome .step-icon  { background: rgba(255,255,255,.18); }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    /* ── Poppie badge ── */
+    .powered-by {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .powered-by strong { color: var(--charcoal); }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <p class="eyebrow">HUSK Health · Poppie</p>
+    <h1>How a Member Check-In <span>Actually Works</span></h1>
+    <p>Every conversation between a member and Poppie quietly builds the clinical picture — so your clinicians walk into every session already informed.</p>
+  </div>
+
+  <!-- Flow -->
+  <div class="flow">
+
+    <!-- Step 1 -->
+    <div class="step">
+      <div class="step-icon member">💬</div>
+      <div class="step-body">
+        <div class="step-label label-member">Member Action</div>
+        <div class="step-title">Member Opens the App</div>
+        <div class="step-desc">Poppie sends a warm, personalized greeting — no login required, no forms to fill out. The conversation feels like a text exchange, not a clinical intake.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20" viewBox="0 0 2 20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="step">
+      <div class="step-icon member">😊</div>
+      <div class="step-body">
+        <div class="step-label label-member">Member Action</div>
+        <div class="step-title">One-Tap Mood Check-In</div>
+        <div class="step-desc">Mood rating chips (1–10) appear instantly. The member taps once — no typing needed. This lowers the barrier to daily engagement dramatically.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="step">
+      <div class="step-icon ai">✨</div>
+      <div class="step-body">
+        <div class="step-label label-ai">Poppie AI</div>
+        <div class="step-title">Smart Quick-Reply Chips</div>
+        <div class="step-desc">Poppie reads the conversation and generates 4 personalized one-tap replies — so the member can respond naturally without composing a message from scratch.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="step">
+      <div class="step-icon ai">🤝</div>
+      <div class="step-body">
+        <div class="step-label label-ai">Poppie AI</div>
+        <div class="step-title">Conversational Response</div>
+        <div class="step-desc">Poppie replies in real time — words appearing as it "thinks," just like a live conversation. Responses are warm, brief, and never clinical. Members feel heard, not assessed.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Branch: optional photo -->
+    <div class="branch-wrapper">
+      <div class="branch-label">Optional — anytime during the conversation</div>
+      <div class="branch-row">
+        <div class="step">
+          <div class="step-icon log">📸</div>
+          <div class="step-body">
+            <div class="step-label label-log">Member Action</div>
+            <div class="step-title">Snap a Meal Photo</div>
+            <div class="step-desc">Member taps the camera icon and uploads a photo of their meal. No manual logging required.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon log">🥗</div>
+          <div class="step-body">
+            <div class="step-label label-log">Poppie AI</div>
+            <div class="step-title">Instant Nutrition Analysis</div>
+            <div class="step-desc">Poppie reads the image and returns estimated calories, macros, and food categories — automatically saved to the member's food log.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 5: background extraction -->
+    <div class="step background">
+      <div class="step-icon log">🔒</div>
+      <div class="step-body">
+        <div class="step-label label-log">Automatic · Runs in Background</div>
+        <div class="step-title">Silent Pattern Extraction</div>
+        <div class="step-desc">After each exchange, Poppie quietly reads the conversation, pulls out mood signals and meal mentions, removes any personally identifying details, and writes the structured data to the member's record. The member never sees this step.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Outcome -->
+    <div class="step outcome">
+      <div class="step-icon">🩺</div>
+      <div class="step-body">
+        <div class="step-label">Clinical Outcome</div>
+        <div class="step-title">Clinician Walks In Informed</div>
+        <div class="step-desc">Before the next session, the clinician opens Poppie and gets a pre-built brief — mood trends, dietary patterns, flags, and suggested talking points — all sourced from the member's own check-ins. No intake forms. No manual chart prep.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Member action</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Poppie AI response</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Automatic / background</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--slate)"></div> Clinical outcome</div>
+  </div>
+
+  <div class="powered-by">Powered by <strong>Claude</strong> · Built for HUSK Health by Poppie</div>
+
+</body>
+</html>

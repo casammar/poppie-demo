@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How Poppie Works — Clinician Session Prep Flow</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --amber:      #F0AF42;
+      --teal:       #66C4C4;
+      --blue:       #3BA9D2;
+      --slate:      #5A6B80;
+      --charcoal:   #3E4349;
+      --gray:       #6D7680;
+      --body:       #54595F;
+      --border:     #DEDEE5;
+      --off-white:  #F5F5F7;
+      --section:    #F8F8F8;
+      --red:        #D94F4F;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--off-white);
+      color: var(--body);
+      padding: 48px 32px 64px;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .header .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--charcoal);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .header h1 span { color: var(--amber); }
+    .header p {
+      font-size: 15px;
+      color: var(--gray);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Flow container ── */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      max-width: 660px;
+      margin: 0 auto;
+    }
+
+    /* ── Step card ── */
+    .step {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 22px 24px;
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+    }
+
+    .step-icon {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+    .step-icon.instant  { background: #EBF8F8; }
+    .step-icon.clinician { background: #FFF4DE; }
+    .step-icon.ai       { background: #EDF6FB; }
+    .step-icon.output   { background: #F0F2F5; }
+    .step-icon.export   { background: #FEF9EC; }
+
+    .step-body { flex: 1; }
+    .step-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .label-instant   { color: var(--teal); }
+    .label-clinician { color: var(--amber); }
+    .label-ai        { color: var(--blue); }
+    .label-output    { color: var(--slate); }
+    .label-export    { color: var(--amber); }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--charcoal);
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+    .step-desc {
+      font-size: 13.5px;
+      color: var(--gray);
+      line-height: 1.55;
+    }
+
+    /* ── Pill tags inside cards ── */
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      line-height: 1.5;
+    }
+    .pill-teal   { background: #EBF8F8; color: var(--teal); }
+    .pill-amber  { background: #FFF4DE; color: #C88A28; }
+    .pill-blue   { background: #EDF6FB; color: var(--blue); }
+    .pill-red    { background: #FEF2F2; color: var(--red); }
+    .pill-slate  { background: #F0F2F5; color: var(--slate); }
+
+    /* ── Arrow ── */
+    .arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 36px;
+    }
+    .arrow svg { display: block; }
+
+    /* ── Section divider label ── */
+    .section-label {
+      width: 100%;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 10px;
+    }
+
+    /* ── Parallel pair ── */
+    .pair-row {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      width: 100%;
+    }
+    .pair-row .step { flex: 1; }
+
+    /* ── Cache highlight step ── */
+    .step.ai-call {
+      border-color: var(--blue);
+      background: #F5FBFE;
+    }
+    .step.ai-call .step-title { color: var(--blue); }
+
+    /* ── Background / dashed step ── */
+    .step.background {
+      border-style: dashed;
+      border-color: var(--border);
+      background: var(--section);
+    }
+
+    /* ── Optional branch ── */
+    .optional-wrapper {
+      width: 100%;
+    }
+
+    /* ── Outcome card ── */
+    .step.outcome {
+      background: var(--amber);
+      border: none;
+      color: #fff;
+    }
+    .step.outcome .step-title { color: #fff; }
+    .step.outcome .step-desc  { color: rgba(255,255,255,.85); }
+    .step.outcome .step-label { color: rgba(255,255,255,.7); }
+    .step.outcome .step-icon  { background: rgba(255,255,255,.2); }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+
+    /* ── Footer ── */
+    .powered-by {
+      text-align: center;
+      margin-top: 36px;
+      font-size: 12px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    .powered-by strong { color: var(--charcoal); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <p class="eyebrow">HUSK Health · Poppie</p>
+    <h1>Session Prep in <span>Under a Minute</span></h1>
+    <p>From the moment a clinician opens the dashboard to the moment they're ready to walk into a session — here's what Poppie does automatically.</p>
+  </div>
+
+  <div class="flow">
+
+    <!-- Step 1: Page load → parallel alerts + stats -->
+    <div class="step">
+      <div class="step-icon instant">⚡</div>
+      <div class="step-body">
+        <div class="step-label label-instant">Automatic · No AI Required</div>
+        <div class="step-title">Dashboard Loads Instantly</div>
+        <div class="step-desc">The moment the clinician opens Poppie, two things happen in parallel — no waiting, no clicks required.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Parallel pair: alerts + stats -->
+    <div class="section-label">Loads simultaneously on page open</div>
+    <div class="pair-row">
+      <div class="step">
+        <div class="step-icon instant">🚨</div>
+        <div class="step-body">
+          <div class="step-label label-instant">Automatic · Rule-Based</div>
+          <div class="step-title">Member Alerts</div>
+          <div class="step-desc">Flagged members surface immediately — mood drops, missed meals, behavioral patterns. Computed from raw data, no AI involved.</div>
+          <div class="pill-row">
+            <span class="pill pill-red">High severity</span>
+            <span class="pill pill-amber">Medium severity</span>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-icon instant">📊</div>
+        <div class="step-body">
+          <div class="step-label label-instant">Automatic · Computed</div>
+          <div class="step-title">Daily Stats Banner</div>
+          <div class="step-desc">Today's briefs generated and estimated minutes saved are calculated and displayed in the header — giving the team a live pulse on Poppie's impact.</div>
+          <div class="pill-row">
+            <span class="pill pill-teal">Briefs generated</span>
+            <span class="pill pill-slate">Minutes saved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 3: Click member card -->
+    <div class="step">
+      <div class="step-icon clinician">👆</div>
+      <div class="step-body">
+        <div class="step-label label-clinician">Clinician Action</div>
+        <div class="step-title">Clinician Clicks a Member Card</div>
+        <div class="step-desc">Selecting a member triggers a pull of their recent trends — 14 days of mood scores and food logs — which render as charts in the side panel. Still no AI involved yet.</div>
+        <div class="pill-row">
+          <span class="pill pill-blue">14-day mood chart</span>
+          <span class="pill pill-teal">14-day food log chart</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 4: Prepare with Poppie -->
+    <div class="step">
+      <div class="step-icon clinician">🤝</div>
+      <div class="step-body">
+        <div class="step-label label-clinician">Clinician Action</div>
+        <div class="step-title">Clicks "Prepare with Poppie"</div>
+        <div class="step-desc">One button press hands everything — the member's full profile, last 3 session notes, and 14 days of food and mood data — to Poppie's AI in a single package.</div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 5: AI call with cache -->
+    <div class="step ai-call">
+      <div class="step-icon ai">🧠</div>
+      <div class="step-body">
+        <div class="step-label label-ai">Poppie AI · Single Claude Call</div>
+        <div class="step-title">Full Context Sent, Brief Returned</div>
+        <div class="step-desc">Claude reads the entire member record in one pass. Prompt caching means the large context block is stored between calls — making repeat briefs significantly faster and cheaper without sacrificing accuracy.</div>
+        <div class="pill-row">
+          <span class="pill pill-blue">Member profile</span>
+          <span class="pill pill-blue">3 session notes</span>
+          <span class="pill pill-blue">14-day food logs</span>
+          <span class="pill pill-blue">14-day mood data</span>
+          <span class="pill pill-teal">Prompt cache active</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Step 6: Brief panel renders -->
+    <div class="step">
+      <div class="step-icon output">📋</div>
+      <div class="step-body">
+        <div class="step-label label-output">Automatic · Rendered Instantly</div>
+        <div class="step-title">Session Brief Panel Populates</div>
+        <div class="step-desc">The brief appears in structured sections — each grounded in actual data from the member's record. High-severity flags are highlighted in red so nothing critical gets missed.</div>
+        <div class="pill-row">
+          <span class="pill pill-slate">Key Themes</span>
+          <span class="pill pill-teal">Dietary Patterns</span>
+          <span class="pill pill-blue">Mood Trend</span>
+          <span class="pill pill-slate">Talking Points</span>
+          <span class="pill pill-red">Flags</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Optional: Generate plan -->
+    <div class="optional-wrapper">
+      <div class="section-label">Optional — if clinician wants to send a plan</div>
+      <div class="pair-row">
+        <div class="step">
+          <div class="step-icon clinician">🥦</div>
+          <div class="step-body">
+            <div class="step-label label-clinician">Clinician Action</div>
+            <div class="step-title">Generate Meal Plan</div>
+            <div class="step-desc">One click sends the member's dietary data and goals to Claude, which returns a personalized 7-day meal plan.</div>
+            <div class="pill-row">
+              <span class="pill pill-teal">7-day plan</span>
+              <span class="pill pill-blue">Personalized</span>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-icon clinician">🧘</div>
+          <div class="step-body">
+            <div class="step-label label-clinician">Clinician Action</div>
+            <div class="step-title">Generate Mood Plan</div>
+            <div class="step-desc">Or the clinician generates a behavioral support plan — structured around the member's mood patterns and avoidance behaviors.</div>
+            <div class="pill-row">
+              <span class="pill pill-amber">7-day plan</span>
+              <span class="pill pill-blue">Personalized</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="arrow">
+      <svg width="2" height="20"><line x1="1" y1="0" x2="1" y2="20" stroke="#DEDEE5" stroke-width="2"/></svg>
+      <svg width="12" height="8" viewBox="0 0 12 8" fill="#DEDEE5"><path d="M6 8L0 0h12z"/></svg>
+    </div>
+
+    <!-- Final: Export -->
+    <div class="step outcome">
+      <div class="step-icon">📄</div>
+      <div class="step-body">
+        <div class="step-label">Clinician Action · Final Step</div>
+        <div class="step-title">Export to Word — Ready to Share</div>
+        <div class="step-desc">One more click exports the brief or plan as a branded .docx file — formatted with HUSK letterhead, ready to print, share with the member, or drop into their chart. No copying, no reformatting.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:var(--teal)"></div> Automatic / rule-based</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--amber)"></div> Clinician action</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div> Poppie AI (Claude)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:var(--slate)"></div> Rendered output</div>
+  </div>
+
+  <div class="powered-by">Powered by <strong>Claude</strong> · Built for HUSK Health by Poppie</div>
+
+</body>
+</html>
