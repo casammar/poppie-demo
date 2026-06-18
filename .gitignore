@@ -15,5 +15,9 @@ node_modules/
 *.log
 npm-debug.log*
 
+# Claude Code
+.claude/settings.local.json
+.pipeline/
+
 # Runtime
 *.pid
