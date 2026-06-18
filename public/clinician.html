@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Clinician Dashboard — Poppie</title>
+<link rel="icon" href="/poppie.gif" type="image/gif" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          husk: {
+            amber:   '#F0AF42',
+            teal:    '#66C4C4',
+            'teal-light': '#79C4E0',
+            blue:    '#3BA9D2',
+            slate:   '#5A6B80',
+            charcoal:'#3E4349',
+            gray:    '#6D7680',
+            body:    '#54595F',
+            border:  '#DEDEE5',
+            'off-white': '#F5F5F7',
+            'section': '#F8F8F8',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  .loading-dot { animation: loadingFade 1.4s infinite both; }
+  .loading-dot:nth-child(2) { animation-delay: .2s; }
+  .loading-dot:nth-child(3) { animation-delay: .4s; }
+  @keyframes loadingFade {
+    0%, 80%, 100% { opacity: 0.2; }
+    40% { opacity: 1; }
+  }
+</style>
+</head>
+<body class="font-sans bg-white text-husk-body">
+
+  <nav class="bg-husk-amber h-20 flex items-center justify-between px-8">
+    <a href="/index.html" class="flex items-center gap-2 text-white font-bold text-xl">
+      <canvas id="nav-logo" class="w-16 h-16 shrink-0 will-change-transform"></canvas>
+      Poppie · Clinician View
+    </a>
+    <div id="time-saved-badge" class="flex items-center gap-2 bg-white/20 rounded-full px-4 py-2 text-white text-sm font-medium hidden">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span id="time-saved-label">0 min saved today</span>
+    </div>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-6 py-10">
+  <div class="grid grid-cols-12 gap-8">
+
+    <!-- Left column -->
+    <div class="col-span-4">
+      <h2 class="text-sm uppercase tracking-widest text-husk-gray mb-3">Today's Appointments</h2>
+      <div id="appointments" class="space-y-4 mb-10"></div>
+
+      <h2 class="text-sm uppercase tracking-widest text-husk-gray mb-3">Alerts</h2>
+      <div id="alerts" class="space-y-3"></div>
+    </div>
+
+    <!-- Right column -->
+    <div class="col-span-8">
+      <h2 class="text-sm uppercase tracking-widest text-husk-gray mb-3">Member Profile</h2>
+      <div id="brief-panel" class="bg-husk-section border border-husk-border rounded-2xl p-6 min-h-[300px] flex items-center justify-center text-husk-gray text-center">
+        Select a member to view their trends and generate a session brief.
+      </div>
+    </div>
+
+  </div><!-- end grid -->
+
+  <!-- Full-width plans area -->
+  <div id="plans-section" class="mt-10 space-y-8"></div>
+
+  </main>
+
+  <script src="/js/clinician.js"></script>
+  <script src="/js/nav-logo.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Poppie — HUSK Health</title>
+<link rel="icon" href="/poppie.gif" type="image/gif" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          husk: {
+            amber:   '#F0AF42',
+            teal:    '#66C4C4',
+            'teal-light': '#79C4E0',
+            blue:    '#3BA9D2',
+            slate:   '#5A6B80',
+            charcoal:'#3E4349',
+            gray:    '#6D7680',
+            body:    '#54595F',
+            border:  '#DEDEE5',
+            'off-white': '#F5F5F7',
+            'section': '#F8F8F8',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="font-sans bg-white text-husk-body">
+
+  <nav class="bg-husk-amber h-20 flex items-center justify-between px-8">
+    <div class="flex items-center gap-2 text-white font-bold text-xl">
+      <canvas id="nav-logo" class="w-16 h-16 shrink-0 will-change-transform"></canvas>
+      Poppie · HUSK Health
+    </div>
+    <button class="bg-white border border-husk-teal text-husk-teal rounded-full px-6 py-2 font-semibold">Book a Demo</button>
+  </nav>
+
+  <main class="relative overflow-hidden">
+    <div class="absolute -top-20 -right-20 w-96 h-96 bg-husk-teal opacity-80 rounded-full overflow-hidden will-change-transform">
+      <img src="/poppie.gif" alt="Poppie" class="w-full h-full object-cover" />
+    </div>
+
+    <section class="relative max-w-4xl mx-auto text-center px-6 py-24">
+      <p class="text-sm uppercase tracking-widest text-husk-gray mb-4">AI Clinical Intelligence</p>
+      <h1 class="text-5xl font-bold text-husk-charcoal mb-6">Meet Poppie</h1>
+      <p class="text-lg text-husk-body max-w-2xl mx-auto mb-12">
+        Poppie expands clinician capacity without adding headcount — surfacing patterns
+        between sessions, flagging members who need attention, and keeping the
+        conversation going with members every day.
+      </p>
+
+      <div class="flex justify-center gap-6">
+        <a href="/clinician.html" class="bg-husk-teal text-white rounded-full px-8 py-3 font-semibold hover:bg-husk-teal-light transition">
+          Clinician View
+        </a>
+        <a href="/member.html" class="border border-husk-amber text-husk-amber bg-white rounded-full px-8 py-3 font-semibold hover:bg-husk-off-white transition">
+          Member View
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <section class="bg-husk-slate text-white py-10">
+    <div class="max-w-5xl mx-auto grid grid-cols-4 text-center divide-x divide-white/20">
+      <div>
+        <p class="text-3xl font-bold">2x</p>
+        <p class="text-sm text-white/80">Clinician capacity</p>
+      </div>
+      <div>
+        <p class="text-3xl font-bold">14 days</p>
+        <p class="text-sm text-white/80">Of context, instantly summarized</p>
+      </div>
+      <div>
+        <p class="text-3xl font-bold" id="minutes-saved">—</p>
+        <p class="text-sm text-white/80">Minutes saved today</p>
+      </div>
+      <div>
+        <p class="text-3xl font-bold">0</p>
+        <p class="text-sm text-white/80">Missed at-risk members</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="/js/nav-logo.js"></script>
+  <script>
+    fetch('/api/stats')
+      .then(r => r.json())
+      .then(({ minutesSavedToday }) => {
+        document.getElementById('minutes-saved').textContent = minutesSavedToday + ' min';
+      })
+      .catch(() => {});
+  </script>
+</body>
+</html>

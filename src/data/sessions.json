@@ -1,0 +1,47 @@
+[
+  {
+    "memberId": "member-001",
+    "date": "2026-05-15",
+    "note": "Reviewed CGM data from past 2 weeks. Fasting glucose averaging 108 mg/dL, down from 118 at intake. Sarah reports consistent breakfast on weekdays but admits weekends are inconsistent. Discussed protein-forward breakfast options. Plan: continue current macros, add 10-min post-dinner walk 3x/week."
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-05-29",
+    "note": "Good engagement. Sarah lost 2.5 lbs since last visit. Walking habit stuck on 2/3 days. Mentioned work travel coming up next month and anticipates it will disrupt meal routine. Reviewed quick on-the-go protein options for travel days."
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-12",
+    "note": "Sarah back from travel week — reports skipping breakfast most mornings 'because mornings got hectic.' Fasting glucose back up slightly to 112. Increased reliance on quick/processed snacks noted. No weight change since last visit. Plan: rebuild breakfast routine, simple grab-and-go list for busy mornings."
+  },
+  {
+    "memberId": "member-002",
+    "date": "2026-05-08",
+    "note": "Initial follow-up. James engaged well, completed thought-record homework. Reports anxiety around upcoming work presentation but used breathing technique successfully twice this week. Sleep stable at 7 hrs average."
+  },
+  {
+    "memberId": "member-002",
+    "date": "2026-05-22",
+    "note": "Mixed week. Presentation went okay but James describes lingering rumination afterward. Skipped one planned social outing 'felt too drained.' Sleep slightly reduced to 6.5 hrs average. Continuing exposure hierarchy work for social avoidance."
+  },
+  {
+    "memberId": "member-002",
+    "date": "2026-06-12",
+    "note": "Noticeable shift — James cancelled two social plans this week and missed his usual gym sessions. Reports difficulty falling asleep most nights, describes 'racing thoughts' at bedtime. Avoidance behaviors increasing relative to prior sessions. Recommended tightening sleep hygiene routine and flagged for closer monitoring before next session."
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-18",
+    "note": "Good engagement. Sarah list 3 more lbs this week. She is walking more and began resistance training at the gym."
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-18",
+    "note": "test"
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-18",
+    "note": "tester"
+  }
+]

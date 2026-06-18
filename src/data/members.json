@@ -1,0 +1,24 @@
+[
+  {
+    "id": "member-001",
+    "name": "Sarah M.",
+    "age": 34,
+    "clinicianName": "Dr. Lauren Brooks",
+    "clinicianType": "Registered Dietitian",
+    "nextAppointment": "2026-06-19T14:00:00",
+    "conditions": ["metabolic syndrome", "insulin resistance"],
+    "goals": ["reduce fasting glucose", "lose 12 lbs in 6 months"],
+    "sessionCount": 8
+  },
+  {
+    "id": "member-002",
+    "name": "James T.",
+    "age": 28,
+    "clinicianName": "Dr. Marcus Webb",
+    "clinicianType": "Mental Health Therapist",
+    "nextAppointment": "2026-06-19T15:30:00",
+    "conditions": ["generalized anxiety disorder"],
+    "goals": ["reduce avoidance behaviors", "improve sleep quality"],
+    "sessionCount": 5
+  }
+]

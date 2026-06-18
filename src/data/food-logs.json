@@ -1,0 +1,165 @@
+[
+  {
+    "memberId": "member-001",
+    "date": "2026-06-02",
+    "meals": {
+      "breakfast": "Greek yogurt with berries and walnuts",
+      "lunch": "Grilled chicken salad with olive oil dressing",
+      "dinner": "Baked salmon, roasted broccoli, quinoa"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-03",
+    "meals": {
+      "breakfast": "Veggie omelet with whole grain toast",
+      "lunch": "Turkey and avocado wrap",
+      "dinner": "Stir-fried tofu with mixed vegetables and brown rice"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-04",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Leftover stir-fry",
+      "dinner": "Grilled chicken, sweet potato, green beans"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-05",
+    "meals": {
+      "breakfast": "Protein smoothie with spinach and banana",
+      "lunch": "Lentil soup with side salad",
+      "dinner": "Turkey chili"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-06",
+    "meals": {
+      "breakfast": "Oatmeal with almond butter",
+      "lunch": "Quinoa bowl with chickpeas and vegetables",
+      "dinner": "Baked cod, asparagus, brown rice"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-07",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Caesar salad with grilled chicken",
+      "dinner": "Homemade veggie pizza"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-08",
+    "meals": {
+      "breakfast": "Scrambled eggs with spinach",
+      "lunch": "Tuna salad sandwich",
+      "dinner": "Grilled steak, roasted vegetables"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-09",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Drive-through burger and fries",
+      "dinner": "Frozen microwave dinner"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-10",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Granola bar and coffee",
+      "dinner": "Delivery pizza"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-11",
+    "meals": {
+      "breakfast": "Coffee only",
+      "lunch": "Vending machine chips and soda",
+      "dinner": "Takeout fried rice"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-12",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Fast food chicken sandwich",
+      "dinner": "Frozen lasagna"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-13",
+    "meals": {
+      "breakfast": "Coffee only",
+      "lunch": "Gas station snack mix",
+      "dinner": "Delivery burger and fries"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-14",
+    "meals": {
+      "breakfast": null,
+      "lunch": "Leftover delivery pizza",
+      "dinner": "Frozen microwave dinner"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-15",
+    "meals": {
+      "breakfast": "Coffee only",
+      "lunch": "Drive-through tacos",
+      "dinner": "Takeout fried rice"
+    }
+  },
+  {
+    "memberId": "member-001",
+    "date": "2026-06-17",
+    "meals": {
+      "breakfast": null,
+      "lunch": null,
+      "dinner": "Romaine lettuce, Seasoned croutons, Shaved Parmesan cheese, Caesar dressing"
+    },
+    "nutrition": {
+      "dinner": {
+        "description": "A classic Caesar salad with fresh chopped romaine lettuce, generously topped with homemade seasoned croutons, shaved Parmesan cheese, and creamy Caesar dressing.",
+        "items": [
+          "Romaine lettuce",
+          "Seasoned croutons",
+          "Shaved Parmesan cheese",
+          "Caesar dressing"
+        ],
+        "estimatedCalories": 420,
+        "macros": {
+          "proteinG": 12,
+          "carbsG": 28,
+          "fatG": 30,
+          "fiberG": 4,
+          "sodiumMg": 890
+        },
+        "categories": [
+          "vegetables",
+          "grains",
+          "dairy",
+          "healthy fats"
+        ],
+        "confidence": "medium",
+        "notes": "This salad is rich in vitamin A from the romaine, but the dressing and cheese contribute significant sodium and saturated fat—consider using dressing sparingly for a lighter option.",
+        "photoAnalyzed": true
+      }
+    }
+  }
+]

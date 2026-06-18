@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Member Check-in — Poppie</title>
+<link rel="icon" href="/poppie.gif" type="image/gif" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          husk: {
+            amber:   '#F0AF42',
+            teal:    '#66C4C4',
+            'teal-light': '#79C4E0',
+            blue:    '#3BA9D2',
+            slate:   '#5A6B80',
+            charcoal:'#3E4349',
+            gray:    '#6D7680',
+            body:    '#54595F',
+            border:  '#DEDEE5',
+            'off-white': '#F5F5F7',
+            'section': '#F8F8F8',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body class="font-sans bg-white text-husk-body h-screen flex flex-col">
+
+  <nav class="bg-husk-amber h-20 flex items-center px-8 shrink-0">
+    <a href="/index.html" class="flex items-center gap-2 text-white font-bold text-xl">
+      <canvas id="nav-logo" class="w-16 h-16 shrink-0 will-change-transform"></canvas>
+      Poppie
+    </a>
+  </nav>
+
+  <main class="flex-1 overflow-y-auto max-w-2xl w-full mx-auto px-6 py-6" id="messages"></main>
+
+  <!-- Photo panel — slides in above the input bar -->
+  <div id="photo-panel" class="hidden border-t border-husk-border bg-husk-off-white shrink-0">
+    <div class="max-w-2xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center mb-3">
+        <p class="text-sm font-semibold text-husk-charcoal">Log a meal photo</p>
+        <button id="photo-panel-close" type="button"
+          class="text-xs text-husk-gray hover:text-husk-charcoal transition">✕ Close</button>
+      </div>
+      <!-- Meal type selector -->
+      <div class="flex gap-2 mb-4">
+        <button class="meal-type-btn flex-1 py-2 rounded-full border border-husk-border text-sm font-medium text-husk-gray hover:border-husk-teal hover:text-husk-teal transition" data-meal="breakfast">Breakfast</button>
+        <button class="meal-type-btn flex-1 py-2 rounded-full border border-husk-border text-sm font-medium text-husk-gray hover:border-husk-teal hover:text-husk-teal transition" data-meal="lunch">Lunch</button>
+        <button class="meal-type-btn flex-1 py-2 rounded-full border border-husk-teal bg-husk-teal text-white text-sm font-medium transition selected" data-meal="dinner">Dinner</button>
+        <button class="meal-type-btn flex-1 py-2 rounded-full border border-husk-border text-sm font-medium text-husk-gray hover:border-husk-teal hover:text-husk-teal transition" data-meal="snack">Snack</button>
+      </div>
+      <!-- Drop zone / file picker -->
+      <label for="photo-input" id="photo-dropzone"
+        class="flex flex-col items-center justify-center gap-2 border-2 border-dashed border-husk-border rounded-2xl p-6 cursor-pointer hover:border-husk-teal transition group">
+        <div id="photo-preview-wrap" class="hidden w-full">
+          <img id="photo-preview" src="" alt="Preview" class="w-full max-h-48 object-contain rounded-xl" />
+        </div>
+        <div id="photo-dropzone-prompt" class="flex flex-col items-center gap-2">
+          <span class="text-3xl">📷</span>
+          <span class="text-sm text-husk-gray group-hover:text-husk-teal transition">Tap to take a photo or choose from library</span>
+        </div>
+      </label>
+      <input id="photo-input" type="file" accept="image/*" capture="environment" class="hidden" />
+      <button id="photo-analyze-btn" type="button" disabled
+        class="mt-4 w-full bg-husk-teal text-white rounded-full py-2.5 text-sm font-semibold
+               hover:opacity-90 transition disabled:opacity-40 disabled:cursor-not-allowed">
+        Analyze with Poppie
+      </button>
+    </div>
+  </div>
+
+  <!-- Meal log panel — slides in above the input bar -->
+  <div id="meal-log-panel" class="hidden border-t border-husk-border bg-husk-off-white shrink-0">
+    <div class="max-w-2xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center mb-3">
+        <p class="text-sm font-semibold text-husk-charcoal">Log today's meals</p>
+        <button id="meal-log-close" type="button"
+          class="text-xs text-husk-gray hover:text-husk-charcoal transition">✕ Close</button>
+      </div>
+      <div class="space-y-2">
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold text-husk-gray w-16 shrink-0">Breakfast</span>
+          <input id="meal-breakfast" type="text" placeholder="What did you have?"
+            class="flex-1 border border-husk-border rounded-full px-4 py-2 text-sm focus:outline-none focus:border-husk-teal" />
+          <button class="skip-btn shrink-0 text-xs text-husk-gray border border-husk-border rounded-full px-3 py-1.5 hover:bg-husk-section transition"
+            data-meal="breakfast">Skip</button>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold text-husk-gray w-16 shrink-0">Lunch</span>
+          <input id="meal-lunch" type="text" placeholder="What did you have?"
+            class="flex-1 border border-husk-border rounded-full px-4 py-2 text-sm focus:outline-none focus:border-husk-teal" />
+          <button class="skip-btn shrink-0 text-xs text-husk-gray border border-husk-border rounded-full px-3 py-1.5 hover:bg-husk-section transition"
+            data-meal="lunch">Skip</button>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs font-semibold text-husk-gray w-16 shrink-0">Dinner</span>
+          <input id="meal-dinner" type="text" placeholder="What did you have?"
+            class="flex-1 border border-husk-border rounded-full px-4 py-2 text-sm focus:outline-none focus:border-husk-teal" />
+          <button class="skip-btn shrink-0 text-xs text-husk-gray border border-husk-border rounded-full px-3 py-1.5 hover:bg-husk-section transition"
+            data-meal="dinner">Skip</button>
+        </div>
+      </div>
+      <button id="meal-log-submit" type="button"
+        class="mt-4 w-full bg-husk-teal text-white rounded-full py-2.5 text-sm font-semibold hover:opacity-90 transition">
+        Log meals
+      </button>
+    </div>
+  </div>
+
+  <form id="chat-form" class="border-t border-husk-border px-6 py-4 flex gap-3 shrink-0 items-center">
+    <button type="button" id="meal-log-toggle" title="Log today's meals"
+      class="shrink-0 w-10 h-10 rounded-full border border-husk-border flex items-center justify-center text-lg hover:border-husk-teal transition">
+      🍽️
+    </button>
+    <button type="button" id="photo-panel-toggle" title="Log a meal photo"
+      class="shrink-0 w-10 h-10 rounded-full border border-husk-border flex items-center justify-center text-lg hover:border-husk-teal transition">
+      📷
+    </button>
+    <input id="chat-input" type="text" autocomplete="off" placeholder="Type a message..."
+      class="flex-1 border border-husk-border rounded-full px-5 py-3 focus:outline-none focus:border-husk-teal" />
+    <button type="submit" class="bg-husk-teal text-white rounded-full px-6 py-3 font-semibold hover:opacity-90 transition">
+      Send
+    </button>
+  </form>
+
+  <footer class="text-center text-xs text-husk-gray py-3 shrink-0">
+    Your responses are shared with your care team.
+  </footer>
+
+  <script src="/js/member.js"></script>
+  <script src="/js/nav-logo.js"></script>
+</body>
+</html>
