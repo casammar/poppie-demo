@@ -8,16 +8,18 @@ const CHIPS_PROMPT = `You generate quick-reply chip suggestions for a wellness c
 
 Given the conversation so far, suggest exactly 4 short reply options the user might realistically send next.
 Rules:
+- Base the chips on what Poppie's MOST RECENT message asked about — if Poppie asked about mood, chips should be mood responses; if Poppie asked about food, chips should be food responses
 - Each chip must be 2–5 words
 - Make them specific to what this user actually mentioned — reference their foods, feelings, activities, or patterns
 - Phrase them as natural first-person fragments the user would type ("Had oatmeal", "Still stressed", "Skipped again")
 - Cover a range: 2 options continuing the current topic, 1 positive/upbeat, 1 that redirects or closes off
 - Return ONLY a valid JSON array of 4 strings, no markdown, no explanation`;
 
-// Keyword-based fallback — scans recent conversation text for context
+// Keyword-based fallback — scans only the last exchange to avoid false positives
+// from earlier messages (e.g. the opening message mentions "meal" before food is discussed)
 function fallbackChips(messages) {
   const recent = messages
-    .slice(-6)
+    .slice(-2)
     .map(m => m.content.toLowerCase())
     .join(' ');
 
