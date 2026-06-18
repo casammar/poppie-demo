@@ -4,15 +4,15 @@ import OpenAI from 'openai';
 const provider = process.env.LLM_PROVIDER ?? 'claude';
 const claudeModel = process.env.CLAUDE_MODEL ?? 'claude-opus-4-5';
 
-export async function chat({ system, messages, useCache = false }) {
+export async function chat({ system, messages, useCache = false, maxTokens = 1024 }) {
   if (provider === 'claude') {
-    return claudeChat({ system, messages, useCache });
+    return claudeChat({ system, messages, useCache, maxTokens });
   } else {
-    return localChat({ system, messages });
+    return localChat({ system, messages, maxTokens });
   }
 }
 
-async function claudeChat({ system, messages, useCache }) {
+async function claudeChat({ system, messages, useCache, maxTokens }) {
   const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
   const systemBlock = useCache
@@ -21,7 +21,7 @@ async function claudeChat({ system, messages, useCache }) {
 
   const response = await client.messages.create({
     model: claudeModel,
-    max_tokens: 1024,
+    max_tokens: maxTokens,
     system: systemBlock,
     messages,
   });
@@ -29,7 +29,7 @@ async function claudeChat({ system, messages, useCache }) {
   return { text: response.content[0].text, provider: 'claude' };
 }
 
-async function localChat({ system, messages }) {
+async function localChat({ system, messages, maxTokens }) {
   const client = new OpenAI({
     baseURL: process.env.LOCAL_LLM_BASE_URL,
     apiKey: process.env.LOCAL_LLM_API_KEY ?? 'lm-studio',
@@ -40,7 +40,7 @@ async function localChat({ system, messages }) {
   const response = await client.chat.completions.create({
     model: process.env.LOCAL_LLM_MODEL,
     messages: allMessages,
-    max_tokens: 2048,
+    max_tokens: maxTokens,
   });
 
   return { text: response.choices[0].message.content, provider: 'local' };

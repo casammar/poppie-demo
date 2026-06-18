@@ -39,6 +39,7 @@ ${JSON.stringify(foodLogs, null, 2)}
       system: MEAL_PLAN_SYSTEM_PROMPT,
       messages: [{ role: 'user', content: contextText }],
       useCache: true,
+      maxTokens: 4096,
     }));
   } catch (err) {
     return res.status(500).json({ error: `LLM error: ${err.message}` });

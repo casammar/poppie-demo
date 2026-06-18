@@ -47,6 +47,7 @@ ${JSON.stringify(moodCheckins, null, 2)}
       system: MOOD_PLAN_SYSTEM_PROMPT,
       messages: [{ role: 'user', content: contextText }],
       useCache: true,
+      maxTokens: 4096,
     }));
   } catch (err) {
     return res.status(500).json({ error: `LLM error: ${err.message}` });
